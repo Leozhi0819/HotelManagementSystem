@@ -21,7 +21,7 @@ public class TestBusiness {
     }
 
     private static void insertData() {
-        DataManager dataManager = new DataManager();
+        DataManager dataManager = DataManager.getInstance();
         String[] column = new String[]{"zhangsan", "23", "89.5"};
         int[] type = new int[]{Types.CHAR, Types.INTEGER, Types.DOUBLE};
 
@@ -36,7 +36,7 @@ public class TestBusiness {
     }
 
     private static void searchData() {
-        DataManager dataManager = new DataManager();
+        DataManager dataManager = DataManager.getInstance();
         String[] column = null;
         int[] type = null;
 

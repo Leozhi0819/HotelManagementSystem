@@ -9,14 +9,22 @@ import java.util.HashMap;
  */
 public class DataManager {
     private PreparedStatement pStmt;
-    private Connection connection;
+    private final Connection connection;
     private ResultSet resultSet;
 
     /**
-     * 打开数据库
+     * 创建数据库单例
      */
-    public DataManager() {
+    private DataManager() {
         connection = DatabaseConnection.getDatabaseConnection();
+    }
+
+    private static class DataManagerHolder {
+        private static final DataManager INSTANCE = new DataManager();
+    }
+
+    public static DataManager getInstance() {
+        return DataManagerHolder.INSTANCE;
     }
 
     /**
