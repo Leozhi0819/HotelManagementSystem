@@ -10,20 +10,35 @@ import java.sql.Types;
  * @author leozhi
  */
 public class TestBusiness {
-    static String searchSql = "SELECT * FROM score";
-    static String insertSql = "INSERT INTO score(name, age, score)VALUE(?, ?, ?)";
-    static String deleteSql = "DELETE FROM score WHERE id = ?";
-    static String updateSql = "UPDATE score set name = ? WHERE id = ?";
+    static String searchSql = "SELECT * FROM customer_info";
+    static String insertSql = "INSERT INTO customer_info(customer_id, customer_name, customer_sex, customer_phone)VALUE(?, ?, ?, ?)";
+    static String deleteSql = "DELETE FROM customer_info WHERE customer_name = ?";
+    static String updateSql = "UPDATE customer_info SET customer_sex = ? WHERE customer_name = ?";
 
     public static void main(String[] args) {
-        insertData();
-        searchData();
+        // insertData();
+        // deleteData();
+        // searchData();
+    }
+
+    private static void deleteData() {
+        DataManager dataManager = new DataManager();
+        String[] column = new String[]{"lisi"};
+        int[] type = new int[]{Types.CHAR};
+        try {
+            boolean flag = dataManager.updateOrAdd(column, type, deleteSql);
+            if (flag) {
+                System.out.println("删除成功");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void insertData() {
-        DataManager dataManager = DataManager.getInstance();
-        String[] column = new String[]{"zhangsan", "23", "89.5"};
-        int[] type = new int[]{Types.CHAR, Types.INTEGER, Types.DOUBLE};
+        DataManager dataManager = new DataManager();
+        String[] column = new String[]{"123456789123456789", "lisi", "男", "12345678910"};
+        int[] type = new int[]{Types.CHAR, Types.CHAR, Types.CHAR, Types.CHAR};
 
         try {
             boolean flag = dataManager.updateOrAdd(column, type, insertSql);
@@ -36,7 +51,7 @@ public class TestBusiness {
     }
 
     private static void searchData() {
-        DataManager dataManager = DataManager.getInstance();
+        DataManager dataManager = new DataManager();
         String[] column = null;
         int[] type = null;
 

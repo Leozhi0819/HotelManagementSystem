@@ -12,26 +12,15 @@ public class DataManager {
     private final Connection connection;
     private ResultSet resultSet;
 
-    /**
-     * 创建数据库单例
-     */
-    private DataManager() {
+    public DataManager() {
         connection = DatabaseConnection.getDatabaseConnection();
-    }
-
-    private static class DataManagerHolder {
-        private static final DataManager INSTANCE = new DataManager();
-    }
-
-    public static DataManager getInstance() {
-        return DataManagerHolder.INSTANCE;
     }
 
     /**
      * 执行修改添加操作
      */
     public boolean updateOrAdd(String[] column, int[] type, String sql) throws SQLException {
-        if (!setStmtParam(column, type, sql)) {
+        if (setStmtParam(column, type, sql)) {
             return false;
         } else {
             boolean flag = pStmt.executeUpdate() > 0;
@@ -46,7 +35,7 @@ public class DataManager {
     public DataTable getResultData(String[] column, int[] type, String sql) throws SQLException {
         DataTable dataTable = new DataTable();
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
-        if (!setStmtParam(column, type, sql)) {
+        if (setStmtParam(column, type, sql)) {
             return null;
         }
         resultSet = pStmt.executeQuery();
@@ -70,7 +59,7 @@ public class DataManager {
      */
     private boolean setStmtParam(String[] column, int[] type, String sql) throws NumberFormatException, SQLException {
         if (sql == null) {
-            return false;
+            return true;
         }
         pStmt = connection.prepareStatement(sql);
         if (column != null && type != null && column.length != 0 && type.length != 0) {
@@ -96,13 +85,13 @@ public class DataManager {
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**
      * 关闭数据库
      */
-    private void closeDatabase() throws SQLException {
+    public void closeDatabase() throws SQLException {
         if (resultSet != null) {
             resultSet.close();
         }

@@ -28,6 +28,9 @@ public class DataTable {
     }
 
     public void setDataTable(ArrayList<HashMap<String, String>> list) {
+        if (list.size() == 0) {
+            return;
+        }
         rowCount = list.size();
         columnCount = list.get(0).size();
         column = new String[columnCount];
