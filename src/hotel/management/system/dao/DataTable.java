@@ -27,7 +27,7 @@ public class DataTable {
         this.columnCount = columnCount;
     }
 
-    public void setDataTable(ArrayList<HashMap<String, String>> list) {
+    public void setDataTable(ArrayList<LinkedHashMap<String, String>> list) {
         if (list.size() == 0) {
             return;
         }

@@ -2,7 +2,7 @@ package hotel.management.system.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * @author leozhi
@@ -34,7 +34,8 @@ public class DataManager {
      */
     public DataTable getResultData(String[] column, int[] type, String sql) throws SQLException {
         DataTable dataTable = new DataTable();
-        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+        // 使用 LinkedHashMap 进行插入，目的是为了取出时和插入顺序相同
+        ArrayList<LinkedHashMap<String, String>> list = new ArrayList<>();
         if (setStmtParam(column, type, sql)) {
             return null;
         }
@@ -43,7 +44,7 @@ public class DataManager {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
         int numberOfColumns = resultSetMetaData.getColumnCount();
         while (resultSet.next()) {
-            HashMap<String, String> rsTree = new HashMap<>();
+            LinkedHashMap<String, String> rsTree = new LinkedHashMap<>();
             for (int r = 1; r < numberOfColumns + 1; r++) {
                 rsTree.put(resultSetMetaData.getColumnName(r), resultSet.getObject(r).toString());
             }

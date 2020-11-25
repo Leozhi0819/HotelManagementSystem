@@ -14,10 +14,10 @@ public class ViewUtils {
         return frame;
     }
 
-    public static JButton createToolButton(URL url, String btnTittle, int x) {
+    public static JButton createToolButton(URL url, String btnText, int x) {
         ImageIcon icon = new ImageIcon(url);
         icon.setImage(icon.getImage().getScaledInstance(66, 66, Image.SCALE_DEFAULT));
-        JButton button = new JButton(btnTittle, icon);
+        JButton button = new JButton(btnText, icon);
         button.setBounds(x, 10, 90, 100);
         // 设置按钮背景透明
         button.setContentAreaFilled(false);
@@ -28,6 +28,17 @@ public class ViewUtils {
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         // 设置字体
         button.setFont(new Font("微软雅黑", Font.BOLD, 12));
+        return button;
+    }
+
+    public static JButton createRoomSettingsButton(URL url, String btnText, int x) {
+        ImageIcon icon = null;
+        if (url != null) {
+            icon = new ImageIcon(url);
+        }
+        JButton button = new JButton(btnText, icon);
+        button.setBounds(x, 560, 150, 25);
+        button.setFont(new Font("微软雅黑", Font.PLAIN, 15));
         return button;
     }
 }

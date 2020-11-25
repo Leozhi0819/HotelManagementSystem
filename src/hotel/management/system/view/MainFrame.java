@@ -1,12 +1,14 @@
 package hotel.management.system.view;
 
-import hotel.management.system.constant.ViewConstant;
+import hotel.management.system.constant.SqlCons;
+import hotel.management.system.constant.ViewCons;
 import hotel.management.system.util.SqlUtil;
 import hotel.management.system.util.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -56,53 +58,54 @@ public class MainFrame extends JFrame {
      */
     private void initToolbar() {
         // 客房预订
-        URL bookingUrl = this.getClass().getResource(ViewConstant.BOOKING_ICON_PATH);
-        JButton bookingBtn = ViewUtils.createToolButton(bookingUrl, ViewConstant.BOOKING_BUTTON_TEXT, 10);
+        URL bookingUrl = this.getClass().getResource(ViewCons.BOOKING_ICON_PATH);
+        JButton bookingBtn = ViewUtils.createToolButton(bookingUrl, ViewCons.BOOKING_BUTTON_TEXT, 10);
         getContentPane().add(bookingBtn);
         bookingBtn.addActionListener(event -> cardLayout.show(containerPanel, "booking"));
         // 住宿管理
-        URL checkinUrl = this.getClass().getResource(ViewConstant.CHECKIN_ICON_PATH);
-        JButton checkinBtn = ViewUtils.createToolButton(checkinUrl, ViewConstant.CHECKIN_BUTTON_TEXT, 115);
+        URL checkinUrl = this.getClass().getResource(ViewCons.CHECKIN_ICON_PATH);
+        JButton checkinBtn = ViewUtils.createToolButton(checkinUrl, ViewCons.CHECKIN_BUTTON_TEXT, 115);
         getContentPane().add(checkinBtn);
         checkinBtn.addActionListener(event -> cardLayout.show(containerPanel, "checkin"));
         // 退房结帐
-        URL checkoutUrl = this.getClass().getResource(ViewConstant.CHECKOUT_ICON_PATH);
-        JButton checkoutBtn = ViewUtils.createToolButton(checkoutUrl, ViewConstant.CHECKOUT_BUTTON_TEXT, 220);
+        URL checkoutUrl = this.getClass().getResource(ViewCons.CHECKOUT_ICON_PATH);
+        JButton checkoutBtn = ViewUtils.createToolButton(checkoutUrl, ViewCons.CHECKOUT_BUTTON_TEXT, 220);
         getContentPane().add(checkoutBtn);
         checkoutBtn.addActionListener(event -> cardLayout.show(containerPanel, "checkout"));
         // 客户查询
-        URL inquireUrl = this.getClass().getResource(ViewConstant.INQUIRE_ICON_PATH);
-        JButton inquireBtn = ViewUtils.createToolButton(inquireUrl, ViewConstant.INQUIRE_BUTTON_TEXT, 325);
+        URL inquireUrl = this.getClass().getResource(ViewCons.INQUIRE_ICON_PATH);
+        JButton inquireBtn = ViewUtils.createToolButton(inquireUrl, ViewCons.INQUIRE_BUTTON_TEXT, 325);
         getContentPane().add(inquireBtn);
         inquireBtn.addActionListener(event -> cardLayout.show(containerPanel, "inquire"));
         // 营业统计
-        URL turnoverUrl = this.getClass().getResource(ViewConstant.TURNOVER_ICON_PATH);
-        JButton turnoverBtn = ViewUtils.createToolButton(turnoverUrl, ViewConstant.TURNOVER_BUTTON_TEXT, 430);
+        URL turnoverUrl = this.getClass().getResource(ViewCons.TURNOVER_ICON_PATH);
+        JButton turnoverBtn = ViewUtils.createToolButton(turnoverUrl, ViewCons.TURNOVER_BUTTON_TEXT, 430);
         getContentPane().add(turnoverBtn);
         turnoverBtn.addActionListener(event -> cardLayout.show(containerPanel, "turnover"));
         // 系统设置
-        URL settingsUrl = this.getClass().getResource(ViewConstant.SETTINGS_ICON_PATH);
-        JButton settingsBtn = ViewUtils.createToolButton(settingsUrl, ViewConstant.SETTINGS_BUTTON_TEXT, 535);
+        URL settingsUrl = this.getClass().getResource(ViewCons.SETTINGS_ICON_PATH);
+        JButton settingsBtn = ViewUtils.createToolButton(settingsUrl, ViewCons.SETTINGS_BUTTON_TEXT, 535);
         getContentPane().add(settingsBtn);
         settingsBtn.addActionListener(event -> cardLayout.show(containerPanel, "settings"));
         // 关于我们
-        URL aboutUrl = this.getClass().getResource(ViewConstant.ABOUT_ICON_PATH);
-        JButton aboutBtn = ViewUtils.createToolButton(aboutUrl, ViewConstant.ABOUT_BUTTON_TEXT, 640);
+        URL aboutUrl = this.getClass().getResource(ViewCons.ABOUT_ICON_PATH);
+        JButton aboutBtn = ViewUtils.createToolButton(aboutUrl, ViewCons.ABOUT_BUTTON_TEXT, 640);
         getContentPane().add(aboutBtn);
         aboutBtn.addActionListener(event -> {
             // TODO 添加按钮点击事件
-            System.out.println(ViewConstant.ABOUT_BUTTON_TEXT);
+            System.out.println(ViewCons.ABOUT_BUTTON_TEXT);
         });
         // 退出系统
-        URL exitUrl = this.getClass().getResource(ViewConstant.EXIT_ICON_PATH);
-        JButton exitBtn = ViewUtils.createToolButton(exitUrl, ViewConstant.EXIT_BUTTON_TEXT, 745);
+        URL exitUrl = this.getClass().getResource(ViewCons.EXIT_ICON_PATH);
+        JButton exitBtn = ViewUtils.createToolButton(exitUrl, ViewCons.EXIT_BUTTON_TEXT, 745);
         getContentPane().add(exitBtn);
         exitBtn.addActionListener(event -> {
-            int result = JOptionPane.showConfirmDialog(null, ViewConstant.EXIT_CONFIRM_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, ViewCons.EXIT_CONFIRM_MESSAGE,
+                    ViewCons.EXIT_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
             if (result == JOptionPane.OK_OPTION) {
-                String sql = "UPDATE login_status SET status='未登录' WHERE user_id=1;";
-                SqlUtil.update(null, null, sql);
-                JOptionPane.showMessageDialog(null, ViewConstant.EXIT_SUCCESS_MESSAGE);
+                String[] loginStatus = new String[]{SqlCons.NOT_LOGGED};
+                SqlUtil.update(loginStatus, new int[]{Types.CHAR}, SqlCons.LOGIN_STATUS_UPDATE);
+                JOptionPane.showMessageDialog(null, ViewCons.EXIT_SUCCESS_MESSAGE);
                 System.exit(0);
             }
         });

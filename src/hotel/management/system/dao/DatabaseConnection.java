@@ -1,6 +1,6 @@
 package hotel.management.system.dao;
 
-import hotel.management.system.constant.SqlConstant;
+import hotel.management.system.constant.SqlCons;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,13 +14,13 @@ public class DatabaseConnection {
         Connection connection = null;
         // 注册驱动
         try {
-            Class.forName(SqlConstant.DRIVER_NAME);
+            Class.forName(SqlCons.DRIVER_NAME);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         // 连接数据库
         try {
-            connection = DriverManager.getConnection(SqlConstant.DATABASE, SqlConstant.USER, SqlConstant.PASSWORD);
+            connection = DriverManager.getConnection(SqlCons.DATABASE, SqlCons.USER, SqlCons.PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         }
