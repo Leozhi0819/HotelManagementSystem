@@ -1,5 +1,6 @@
 package hotel.management.system.view;
 
+import hotel.management.system.bean.RoomInfo;
 import hotel.management.system.bean.RoomType;
 import hotel.management.system.constant.SqlCons;
 import hotel.management.system.constant.ViewCons;
@@ -23,10 +24,12 @@ public class SettingsPanel extends JPanel {
     private static JTable roomTypeTable;
     private static JTable roomInfoTable;
     private final RoomType roomType;
+    private final RoomInfo roomInfo;
     public SettingsPanel() {
         this.setBounds(0, 0, 1600, 800);
 
         roomType = new RoomType();
+        roomInfo = new RoomInfo();
 
         // 创建选项卡面板
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -55,7 +58,6 @@ public class SettingsPanel extends JPanel {
         roomPanel.add(modifyTypeBtn);
         modifyTypeBtn.addActionListener(event -> {
             if (roomTypeTable.getSelectedColumn() < 0) {
-                // todo: 常量
                 JOptionPane.showMessageDialog(null, "请选择要修改的数据！");
             } else {
                 new ModifyTypeDialog(this, roomType).setVisible(true);
@@ -68,10 +70,16 @@ public class SettingsPanel extends JPanel {
             if (roomTypeTable.getSelectedColumn() < 0) {
                 JOptionPane.showMessageDialog(null, "请选择要删除的数据！");
             } else {
-                // todo 删除所有房间信息表中的数据
-                String[] column = new String[]{roomType.getRoomType()};
-                SqlUtil.update(column, new int[]{Types.CHAR}, SqlCons.ROOM_TYPE_DELETE);
-                updateTableInfo();
+                int result = JOptionPane.showConfirmDialog(null,
+                        "您确定要删除该类型的所有房间吗？", "删除类型", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    String[] column = new String[]{roomType.getRoomType()};
+                    // 删除房间类型
+                    SqlUtil.update(column, new int[]{Types.CHAR}, SqlCons.ROOM_TYPE_DELETE);
+                    // 删除该类型的所有房间
+                    SqlUtil.update(column, new int[]{Types.CHAR}, SqlCons.ROOM_TYPE_ALL_DELETE);
+                    updateTableInfo();
+                }
             }
         });
 
@@ -90,7 +98,11 @@ public class SettingsPanel extends JPanel {
         JButton modifyRoomBtn = ViewUtils.createRoomSettingsButton(null, ViewCons.MODIFY_ROOM_BUTTON, 1110);
         roomPanel.add(modifyRoomBtn);
         modifyRoomBtn.addActionListener(event -> {
-            System.out.println(ViewCons.MODIFY_ROOM_BUTTON);
+            if (roomInfoTable.getSelectedColumn() < 0) {
+                JOptionPane.showMessageDialog(null, "请选择要修改的数据！");
+            } else {
+                new ModifyRoomDialog(this, roomInfo).setVisible(true);
+            }
             updateTableInfo();
         });
 
@@ -98,9 +110,21 @@ public class SettingsPanel extends JPanel {
         JButton deleteRoomBtn = ViewUtils.createRoomSettingsButton(null, ViewCons.DELETE_ROOM_BUTTON, 1370);
         roomPanel.add(deleteRoomBtn);
         deleteRoomBtn.addActionListener(event -> {
-            System.out.println(ViewCons.DELETE_ROOM_BUTTON);
+            if (roomInfoTable.getSelectedColumn() < 0) {
+                JOptionPane.showMessageDialog(null, "请选择要删除的数据！");
+            } else {
+                int result = JOptionPane.showConfirmDialog(null,
+                        "您确定要删除该房间吗？", "删除房间", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    String[] column = new String[]{roomInfo.getRoomNumber()};
+                    // 删除该类型的所有房间
+                    SqlUtil.update(column, new int[]{Types.CHAR}, SqlCons.ROOM_DELETE);
+                    updateTableInfo();
+                    // 更新入住界面的选项面板
+                    CheckinPanel.updatePaneInfo();
+                }
+            }
         });
-
         updateTableInfo();
     }
 
@@ -114,6 +138,7 @@ public class SettingsPanel extends JPanel {
 
         Object[][] roomTypeBody = SqlUtil.query(null, null, SqlCons.ROOM_TYPE_QUERY);
         roomTypeTable = new JTable(new MyTableModel(roomTypeBody, ViewCons.ROOM_TYPE_TABLE_HEAD));
+        // roomTypeTable.getTableHeader().setFont(new Font("微软雅黑", 0, 12));
         roomTypeTable.setDefaultRenderer(Object.class, renderer);
         roomTypeScrollPane.setViewportView(roomTypeTable);
         // 添加表格监听
@@ -131,7 +156,19 @@ public class SettingsPanel extends JPanel {
 
         Object[][] roomInfoBody = SqlUtil.query(null, null, SqlCons.ROOM_INFO_QUERY);
         roomInfoTable = new JTable(new MyTableModel(roomInfoBody, ViewCons.ROOM_INFO_TABLE_HEAD));
+        // roomInfoTable.getTableHeader().setFont(new Font("微软雅黑", 0, 12));
         roomInfoTable.setDefaultRenderer(Object.class, renderer);
         roomInfoScrollPane.setViewportView(roomInfoTable);
+        roomInfoTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = roomInfoTable.getSelectedRow();
+                roomTypeTable.setSelectionBackground(new Color(233, 233, 233));
+                roomInfo.setRoomNumber(roomInfoTable.getValueAt(row, 0).toString());
+                roomInfo.setRoomType(roomInfoTable.getValueAt(row, 1).toString());
+                roomInfo.setRoomPhone(roomInfoTable.getValueAt(row, 0).toString());
+                roomInfo.setWifiPassword(roomInfoTable.getValueAt(row, 3).toString());
+            }
+        });
     }
 }

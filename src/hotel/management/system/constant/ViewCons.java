@@ -59,14 +59,15 @@ public class ViewCons {
     public static final String ROOM_SETTINGS          = "房间设置";
     public static final String[] ROOM_TYPE_COMBOBOX   = {"不可使用", "可供使用", "维护中", "已预订"};
     public static final String[] ROOM_TYPE_TABLE_HEAD = {"房间类型", "预设单价", "床位数量"};
-    public static final String[] ROOM_INFO_TABLE_HEAD = {"房间号", "房间类型", "房间状态", "Wifi密码"};
+    public static final String[] ROOM_INFO_TABLE_HEAD = {"房间号", "房间类型", "Wifi密码"};
     public static final String ADD_TYPE_BUTTON        = "添加类型";
     public static final String MODIFY_TYPE_BUTTON     = "修改类型";
     public static final String DELETE_TYPE_BUTTON     = "删除类型";
-    public static final String[] ROOM_STATUS          = {"空闲", "已预订", "使用中", "维护中"};
+    public static final String[] ROOM_STATUS          = {"空闲", "已预订", "已入住", "维护中"};
     public static final String ADD_ROOM_BUTTON        = "添加房间";
     public static final String MODIFY_ROOM_BUTTON     = "修改房间";
     public static final String DELETE_ROOM_BUTTON     = "删除房间";
+    public static final String CHECKIN_DIALOG_TITLE   = "办理入住";
 
     /**
      * 退出系统
@@ -74,4 +75,25 @@ public class ViewCons {
     public static final String EXIT_TITLE = "退出系统";
     public static final String EXIT_CONFIRM_MESSAGE = "您确定要退出系统吗？";
     public static final String EXIT_SUCCESS_MESSAGE = "已退出，欢迎下次使用！";
+    /**
+     * 预定设置
+     */
+    public static final String BOOKING_MANAGE         = "预定管理";
+    public static final String BOOKING                = "预定";
+    public static final String CANCAL_BOOKING = "取消预定";
+    /**
+     * 客户查询
+     */
+    public static final String[] CUSTOMER_TABLE_HEAD = {"房间号", "姓名", "入住日期","押金"};
+
+    public static final String[] BOOKING_TABLE_HEAD = {"姓名", "身份证号", "入住日期","房间类型"};
+    public static final String DELETE_BOOKING_BUTTON     = "取消预订";
+    public static final String BOOKING_SEARCH_NAME                = "查询";
+
+    /**
+     * 顾客住房消费						陈
+     */
+    public static final String Consumption_Housing_Info  = "顾客消费信息";
+    public static final String[] Information  = {"顾客入住编号","房间号", "顾客id", "入住日期", "天数"};
+    public static final String CHECKOUT = "退房结账";
 }

@@ -24,8 +24,9 @@ public class SqlUtil {
         } catch (SQLException e) {
             if (e instanceof SQLIntegrityConstraintViolationException) {
                 JOptionPane.showMessageDialog(null, "要添加的数据已存在！", "数据冲突", JOptionPane.WARNING_MESSAGE);
+            } else {
+                e.printStackTrace();
             }
-            e.printStackTrace();
         }
     }
 

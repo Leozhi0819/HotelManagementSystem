@@ -55,6 +55,8 @@ public class ModifyTypeDialog extends JDialog {
             int[] type = {Types.CHAR, Types.DOUBLE, Types.INTEGER, Types.INTEGER};
             SqlUtil.update(column, type, SqlCons.ROOM_TYPE_UPDATE);
             jPanel.updateTableInfo();
+            // 更新入住界面的选项面板
+            CheckinPanel.updatePaneInfo();
             this.dispose();
         });
         JButton cancelBtn = new JButton("取消");
